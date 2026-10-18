@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Compra">
+<meta name="theme-color" content="#e2572b">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Compra</title>
+<style>
+:root{--bg:#faf7f2;--card:#fff;--text:#2b2623;--muted:#8a817a;--accent:#e2572b;--line:#ece5dc}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1917;--card:#292524;--text:#f3ede6;--muted:#a39a91;--accent:#f27a50;--line:#3a3532}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,sans-serif;max-width:560px;margin-inline:auto;padding:calc(16px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom))}
+h1{font-size:22px;letter-spacing:.02em;text-transform:uppercase;margin:8px 0 14px;display:flex;align-items:center;gap:12px}
+h1 svg{height:44px;width:auto;flex:none}
+.add{display:flex;gap:8px;margin-bottom:8px}
+input[type=text]{flex:1;min-width:0;padding:13px 14px;font-size:17px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text)}
+button{font:inherit;cursor:pointer}
+.btn{background:#60a5fa;color:#fff;border:0;border-radius:12px;padding:0 18px;font-size:22px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:6px 12px;font-size:14px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 4px 6px}
+.item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:6px}
+.check{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:none;flex:none;color:#fff;font-size:15px;line-height:1}
+.done .check{background:var(--accent);border-color:var(--accent)}
+.name{flex:1;font-size:17px;word-break:break-word}
+.done .name{text-decoration:line-through;color:var(--muted)}
+.del{background:none;border:0;color:var(--muted);font-size:20px;padding:0 4px}
+.status{color:var(--muted);text-align:center;margin:30px 0;font-size:15px}
+.recent{margin:4px 0 8px}
+.recent-head{width:100%;text-align:left;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:16px;font-weight:600}
+.recent .item{margin:6px 0 0}
+.recent .name{color:var(--muted)}
+.back{background:none;border:1px solid #60a5fa;color:#60a5fa;border-radius:999px;width:34px;height:34px;font-size:20px;line-height:1;flex:none}
+.hint{color:var(--muted);font-size:14px;padding:12px 6px}
+.item{position:relative}
+.store-btn{background:none;border:0;padding:2px;color:var(--muted);display:flex;align-items:center;flex:none}
+.store-btn svg{height:22px;width:auto;display:block}
+.logo{display:flex;flex:none}
+.logo svg{height:20px;width:auto;display:block}
+.menu{position:absolute;right:8px;top:100%;margin-top:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);padding:6px;z-index:20;min-width:210px}
+.menu-opt{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:var(--text);padding:9px 8px;border-radius:8px;text-align:left;font-size:16px}
+.menu-opt.sel{background:var(--line)}
+.menu-opt svg{height:22px;width:auto;flex:none}
+.menu-opt.none{color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<h1><svg viewBox="130 395 780 570" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g transform="translate(700 555) rotate(28)">
+      <rect x="-60" y="-150" width="120" height="300" rx="55" fill="#deab6a"/>
+      <g stroke="#b07b42" stroke-width="11"><line x1="-35" y1="-58" x2="35" y2="-102"/><line x1="-35" y1="12" x2="35" y2="-32"/><line x1="-35" y1="82" x2="35" y2="38"/></g>
+    </g>
+    <g stroke="#22c55e" stroke-width="16" fill="none"><line x1="615" y1="505" x2="585" y2="425"/><line x1="615" y1="505" x2="625" y2="415"/><line x1="615" y1="505" x2="668" y2="430"/></g>
+    <polygon points="565,495 662,520 600,675" fill="#f97316"/>
+    <circle cx="430" cy="590" r="92" fill="#ef4444"/>
+    <line x1="430" y1="508" x2="438" y2="468" stroke="#78481e" stroke-width="12"/>
+    <polygon points="440,480 505,448 490,503" fill="#22c55e"/>
+    <g fill="#60a5fa">
+      <polygon points="290,640 885,640 825,825 350,825"/>
+      <polyline points="150,570 250,570 345,850" fill="none" stroke="#60a5fa" stroke-width="44" stroke-linejoin="round"/>
+      <line x1="350" y1="860" x2="800" y2="860" stroke="#60a5fa" stroke-width="34"/>
+      <circle cx="430" cy="905" r="46"/><circle cx="740" cy="905" r="46"/>
+    </g>
+  </svg><span>Carro de la compra</span></h1>
+<div class="add">
+  <input type="text" id="txt" placeholder="Añadir producto…" autocomplete="off" enterkeyhint="done">
+  <button class="btn" id="addBtn" aria-label="Añadir">+</button>
+</div>
+<div class="recent">
+  <button class="recent-head" id="recentHead"></button>
+  <div id="recentList" hidden></div>
+</div>
+<div id="list"></div>
+<div class="status" id="status">Conectando…</div>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBSY0f5Sh9-WJrwzmqI8xijxRbjoqWOo9w",
+  authDomain: "proyecto-app-v2.firebaseapp.com",
+  projectId: "proyecto-app-v2",
+  storageBucket: "proyecto-app-v2.firebasestorage.app",
+  messagingSenderId: "673395941373",
+  appId: "1:673395941373:web:d2024d6f515035bba04394"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const col = collection(db, "compra");
+
+const CATS = ["Frutas y verduras","Carne y pescado","Lácteos y huevos","Pan y pasta","Despensa","Congelados","Bebidas","Limpieza e higiene","Otros"];
+const $ = (i) => document.getElementById(i);
+let items = [];
+let recentOpen = false;
+try { recentOpen = localStorage.getItem("recentOpen") === "1"; } catch (e) {}
+const MAX_RECIENTES = 30;
+
+// Reglas para adivinar la sección. Se mira en orden: la primera que coincide gana.
+const REGLAS = [
+  ["Limpieza e higiene", ["sanitol","lejia","detergente","suavizante","friegasuelos","fregasuelos","limpia","lavavajillas","papel higienico","papel de cocina","papel cocina","servilleta","bayeta","estropajo","bolsas? de basura","basura","jabon","gel de","gel ducha","champu","acondicionador","desodorante","pasta de dientes","dentifrico","cepillo","colonia","compresa","tampon","panuelo","algodon","ambientador","insecticida","film","papel de aluminio","aluminio","pilas","bombilla","maquinilla","crema (hidratante|solar|de manos)","desmaquillante"]],
+  ["Despensa", ["caldo","escabeche","conserva","en lata","lata de","atun","sardinilla","berberecho","anchoa","tomate (frito|triturado)","salsa de tomate","pan rallado","mermelada","confitura","patatas (fritas|chips)","aperitivo","snack","ganchitos","palomitas","(mantequilla|crema) de cacahuete"]],
+  ["Pan y pasta", ["pan de "]],
+  ["Congelados", ["congelad","helado","pizza","croqueta","empanadilla","nugget","san jacobo","varitas","palitos de merluza","calamares a la romana","hielo"]],
+  ["Bebidas", ["agua(s)?\\b","cerveza","vino","refresco","coca ?cola","fanta","nestea","aquarius","zumo","tonica","ginebra","ron\\b","whisky","vodka","sidra","cava","tinto","gaseosa","isotonic","energetica","red bull","sprite","pepsi","mosto","limonada","kas\\b","bebida"]],
+  ["Lácteos y huevos", ["huevo","yogur","leche","queso","tranchete","edam","mantequilla","nata\\b","natilla","flan","cuajada","kefir","margarina","batido","actimel"]],
+  ["Carne y pescado", ["pollo","pavo","ternera","cerdo","cordero","conejo","carne","picada","hamburguesa","albondiga","salchicha","chorizo","jamon","york","fiambre","bacon","panceta","lomo","solomillo","chuleta","costilla","pechuga","muslo","contramuslo","filete","entrecot","secreto","presa\\b","longaniza","morcilla","salchichon","mortadela","pescado","salmon","merluza","bacalao","lubina","dorada","gamba","langostino","calamar","sepia","pulpo","mejillon","almeja","marisco","trucha","rape\\b","sardina","boqueron","pez espada","emperador","cazon","lenguado","surimi","palitos de cangrejo"]],
+  ["Pan y pasta", ["pan\\b","barra","baguette","bollo","croissant","magdalena","pasta\\b","espagueti","macarron","fideo","tallarin","lasana","canelon","tortellini","ravioli","noodle","tortita","wrap","tortillas? de (trigo|maiz)","masa","oblea","empanada","bizcocho","donut","palmera","napolitana","ensaimada"]],
+  ["Frutas y verduras", ["manzana","pera\\b","peras\\b","platano","banana","naranja","mandarina","limon","lima\\b","fresa","uva","melon","sandia","melocoton","nectarina","ciruela","kiwi","pina\\b","mango","aguacate","cereza","arandano","frambuesa","higo","fruta","verdura","ensalada","lechuga","canonigo","rucula","espinaca","tomate","cebolla","cebolleta","ajo","pimient(o|os)\\b","zanahoria","calabacin","berenjena","pepino","patata","boniato","calabaza","puerro","apio","coliflor","col(es)?\\b","repollo","lombarda","judias? verde","guisante","esparrago","alcachofa","remolacha","rabano","perejil","cilantro","albahaca","hierbabuena","maiz dulce"]],
+  ["Despensa", ["arroz","legumbre","lenteja","garbanzo","alubia","harina","azucar","sal\\b","aceite","vinagre","salsa","ketchup","mayonesa","mostaza","especia","pimienta","oregano","comino","pimenton","canela","cafe","cacao","colacao","nesquik","cereal","muesli","avena","galleta","chocolate","miel\\b","nutella","frutos secos","almendra","nuez","nueces","cacahuete","pipas","aceituna","pepinillo","sofrito","sopa","crema de","pure","levadura","bicarbonato","maizena","gelatina","quinoa","cuscus","te\\b","infusion","manzanilla","poleo"]]
+];
+
+function normalizar(t) {
+  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function adivinarCategoria(nombre) {
+  const t = normalizar(nombre);
+  for (const [categoria, palabras] of REGLAS) {
+    for (const p of palabras) {
+      if (new RegExp("(^|[^a-z])" + p).test(t)) return categoria;
+    }
+  }
+  return "Otros";
+}
+
+
+const STORES = ["Mercadona", "Aldi", "Lidl", "Carrefour", "Hipercor"];
+const F = 'font-family="Arial,Helvetica,sans-serif" font-weight="700"';
+const LOGOS = {
+  Mercadona: `<svg viewBox="0 0 64 24" width="64" height="24"><rect width="64" height="24" rx="6" fill="#00a652"/><text x="32" y="16" text-anchor="middle" ${F} font-size="9.5" fill="#fff">Mercadona</text></svg>`,
+  Aldi: `<svg viewBox="0 0 64 24" width="64" height="24"><rect width="64" height="24" rx="6" fill="#00005f"/><rect x="4" y="3" width="56" height="2.5" rx="1.2" fill="#00a1df"/><rect x="4" y="6.5" width="56" height="2.5" rx="1.2" fill="#f37021"/><text x="32" y="20" text-anchor="middle" ${F} font-size="11" fill="#fff" letter-spacing="1">ALDI</text></svg>`,
+  Lidl: `<svg viewBox="0 0 64 24" width="64" height="24"><rect width="64" height="24" rx="6" fill="#0050aa"/><ellipse cx="32" cy="12" rx="26" ry="9" fill="#fff000" stroke="#e60a14" stroke-width="1.8"/><text x="32" y="16.2" text-anchor="middle" ${F} font-size="11" fill="#0050aa">Lidl</text></svg>`,
+  Carrefour: `<svg viewBox="0 0 64 24" width="64" height="24"><rect x=".5" y=".5" width="63" height="23" rx="6" fill="#fff" stroke="#d0d7e2"/><polygon points="12,5 5,12 12,19 12,15 9.5,12 12,9" fill="#e30613"/><polygon points="14,5 21,12 14,19 14,15 16.5,12 14,9" fill="#004a99"/><text x="25" y="15.5" ${F} font-size="8.2" fill="#004a99">Carrefour</text></svg>`,
+  Hipercor: `<svg viewBox="0 0 64 24" width="64" height="24"><rect width="64" height="24" rx="6" fill="#00903c"/><text x="32" y="16.3" text-anchor="middle" ${F} font-size="11.5" fill="#fff">hipercor</text></svg>`
+};
+const STORE_ICON = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9a2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 6 0 2.5 2.5 0 0 0 5 0"/><path d="M5 12v8h14v-8"/><path d="M10 20v-4h4v4"/></svg>';
+let openMenu = null;
+
+function crearMenu(it) {
+  const m = document.createElement("div"); m.className = "menu";
+  const elegir = (valor) => (e) => {
+    e.stopPropagation(); openMenu = null;
+    save(() => updateDoc(doc(db, "compra", it.id), { store: valor }));
+    render();
+  };
+  STORES.forEach((nombre) => {
+    const b = document.createElement("button");
+    b.className = "menu-opt" + (it.store === nombre ? " sel" : "");
+    b.innerHTML = LOGOS[nombre] + "<span></span>";
+    b.lastChild.textContent = nombre + (it.store === nombre ? "  ✓" : "");
+    b.onclick = elegir(nombre);
+    m.appendChild(b);
+  });
+  if (it.store) {
+    const q = document.createElement("button"); q.className = "menu-opt none";
+    q.textContent = "Quitar supermercado"; q.onclick = elegir("");
+    m.appendChild(q);
+  }
+  return m;
+}
+
+function fechaUso(i) { return i.doneAt || i.t || 0; }
+
+function render() {
+  const box = $("list"); box.innerHTML = "";
+  const pendientes = items.filter((i) => !i.done);
+  let any = false;
+  CATS.forEach((c) => {
+    const group = pendientes.filter((i) => i.cat === c);
+    if (!group.length) return;
+    any = true;
+    const h = document.createElement("h2"); h.textContent = c; box.appendChild(h);
+    group.sort((a, b) => (a.t || 0) - (b.t || 0));
+    group.forEach((it) => {
+      const d = document.createElement("div"); d.className = "item";
+      const ck = document.createElement("button"); ck.className = "check";
+      ck.setAttribute("aria-label", "Marcar como comprado");
+      ck.onclick = () => marcar(it);
+      const n = document.createElement("span"); n.className = "name"; n.textContent = it.name;
+      const x = document.createElement("button"); x.className = "del"; x.textContent = "✕"; x.setAttribute("aria-label", "Borrar");
+      x.onclick = () => save(() => deleteDoc(doc(db, "compra", it.id)));
+      const sb = document.createElement("button"); sb.className = "store-btn";
+      sb.setAttribute("aria-label", "Elegir supermercado");
+      sb.innerHTML = it.store && LOGOS[it.store] ? LOGOS[it.store] : STORE_ICON;
+      sb.onclick = (e) => { e.stopPropagation(); openMenu = openMenu === it.id ? null : it.id; render(); };
+      d.append(ck, n, sb, x);
+      if (openMenu === it.id) d.appendChild(crearMenu(it));
+      box.appendChild(d);
+    });
+  });
+  $("status").textContent = any ? "" : "La lista está vacía. ¡Añade algo arriba!";
+  renderRecientes();
+}
+
+function renderRecientes() {
+  const hechos = items.filter((i) => i.done).sort((a, b) => fechaUso(b) - fechaUso(a));
+  $("recentHead").textContent = (recentOpen ? "▾" : "▸") + " 🕘 Recientes (" + hechos.length + ")";
+  const rl = $("recentList"); rl.innerHTML = ""; rl.hidden = !recentOpen;
+  if (!recentOpen) return;
+  if (!hechos.length) {
+    const m = document.createElement("div"); m.className = "hint";
+    m.textContent = "Aquí aparecerán los productos que vayas marcando como comprados.";
+    rl.appendChild(m); return;
+  }
+  hechos.forEach((it) => {
+    const d = document.createElement("div"); d.className = "item";
+    const n = document.createElement("span"); n.className = "name"; n.textContent = it.name;
+    const b = document.createElement("button"); b.className = "back"; b.textContent = "+"; b.setAttribute("aria-label", "Volver a la lista");
+    b.onclick = () => save(() => updateDoc(doc(db, "compra", it.id), { done: false }));
+    const x = document.createElement("button"); x.className = "del"; x.textContent = "✕"; x.setAttribute("aria-label", "Borrar del todo");
+    x.onclick = () => save(() => deleteDoc(doc(db, "compra", it.id)));
+    const partes = [n];
+    if (it.store && LOGOS[it.store]) { const l = document.createElement("span"); l.className = "logo"; l.innerHTML = LOGOS[it.store]; partes.push(l); }
+    partes.push(b, x);
+    d.append(...partes); rl.appendChild(d);
+  });
+}
+
+function marcar(it) {
+  save(() => updateDoc(doc(db, "compra", it.id), { done: true, doneAt: Date.now() }));
+  // Guardamos solo los últimos productos usados; los más antiguos se borran solos
+  const hechos = items.filter((i) => i.done && i.id !== it.id).sort((a, b) => fechaUso(b) - fechaUso(a));
+  hechos.slice(MAX_RECIENTES - 1).forEach((i) => save(() => deleteDoc(doc(db, "compra", i.id))));
+}
+
+function save(fn) {
+  fn().catch(() => { $("status").textContent = "No se pudo guardar. Inténtalo de nuevo."; });
+}
+
+function add() {
+  const v = $("txt").value.trim(); if (!v) return;
+  $("txt").value = "";
+  // Si ya estaba en "recientemente utilizado", lo recuperamos en vez de duplicarlo
+  const previo = items.find((i) => i.done && normalizar(i.name) === normalizar(v));
+  if (previo) { save(() => updateDoc(doc(db, "compra", previo.id), { done: false })); return; }
+  const id = "i" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  const categoria = adivinarCategoria(v);
+  save(() => setDoc(doc(db, "compra", id), { name: v, cat: categoria, done: false, t: Date.now() }));
+}
+
+$("addBtn").onclick = add;
+$("txt").addEventListener("keydown", (e) => { if (e.key === "Enter") add(); });
+$("recentHead").onclick = () => {
+  recentOpen = !recentOpen;
+  try { localStorage.setItem("recentOpen", recentOpen ? "1" : "0"); } catch (e) {}
+  renderRecientes();
+};
+
+document.addEventListener("click", () => { if (openMenu) { openMenu = null; render(); } });
+
+render();
+
+onSnapshot(col,
+  (snap) => { items = snap.docs.map((d) => ({ ...d.data(), id: d.id })); render(); },
+  () => { $("status").textContent = "Error de conexión. Revisa las reglas de Firestore."; }
+);
+</script>
+</body>
+</html>
